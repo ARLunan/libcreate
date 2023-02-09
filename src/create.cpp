@@ -147,8 +147,8 @@ namespace create {
 
       // This is a fix involving analog gyro connected to pin 4 of Cargo Bay:
       uint16_t angleRaw = GET_DATA(ID_CARGO_BAY_ANALOG_SIGNAL);
-      float angleF = -((float)angleRaw - 512.0) * dt;
-      angleF = angleF * 0.25; // gyro calibration factor
+      float angleF = -((float)angleRaw - 512.0 + getGyroOffset()) * dt;
+      angleF = angleF * 0.25 * getGyroScale(); // gyro calibration factor
       //std::cout<< "dt: " << dt << " distanceRaw: " << distanceRaw << " angleRaw: " << angleRaw << " angleF: " << angleF << std::endl;
       deltaYaw = angleF * (util::PI / 180.0); // D2R
       wheelDistDiff = model.getAxleLength() * deltaYaw;
@@ -1158,5 +1158,11 @@ namespace create {
   uint64_t Create::getTotalPackets() const {
     return serial->getTotalPackets();
   }
+
+  void Create::setGyroParameters(const double& offset, const double& scale) {
+    gyroOffset = (float)offset;
+    gyroScale = (float)scale;
+  }
+
 
 } // end namespace

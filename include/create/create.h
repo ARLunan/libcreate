@@ -76,6 +76,11 @@ namespace create {
       create::Pose pose;
       create::Vel vel;
 
+      // A fix to https://github.com/AutonomyLab/create_robot/issues/28
+      //      - reading analog gyro via Create 1 Cargo Bay pin 4:
+      float gyroOffset;   // around 0, when static gyro produces 512 reading
+      float gyroScale;    // around 1, adjust for gyro signal strength
+
       uint32_t prevTicksLeft;
       uint32_t prevTicksRight;
       float totalLeftDist;
@@ -690,6 +695,15 @@ namespace create {
        * \return true if the mode reporting workaround is enabled, false otherwise.
        */
       bool getModeReportWorkaround() const;
+
+      /**
+       *  A fix to https://github.com/AutonomyLab/create_robot/issues/28
+       */
+      void setGyroParameters(const double& offset, const double& scale);
+
+      inline float getGyroOffset() { return gyroOffset; };
+
+      inline float getGyroScale() { return gyroScale; };
 
   };  // end Create class
 
