@@ -114,20 +114,19 @@ namespace create {
     float wheelDistDiff = 0.0f;
 
     // Protocol versions 1 and 2 use distance and angle fields for odometry
-    int16_t angleField = 0;
     if (model.getVersion() <= V_2) {
       // This is a standards compliant way of doing unsigned to signed conversion
       uint16_t distanceRaw = GET_DATA(ID_DISTANCE);
       int16_t distance;
       std::memcpy(&distance, &distanceRaw, sizeof(distance));
       deltaDist = distance / 1000.0; // mm -> m
-
-      // Angle is processed differently in versions 1 and 2
-      uint16_t angleRaw = GET_DATA(ID_ANGLE);
-      std::memcpy(&angleField, &angleRaw, sizeof(angleField));
     }
 
+    // Angle is processed differently in versions 1 and 2
     if (model.getVersion() == V_1) {
+      int16_t angleField = 0;
+      uint16_t angleRaw = GET_DATA(ID_ANGLE);
+      std::memcpy(&angleField, &angleRaw, sizeof(angleField));
       wheelDistDiff = 2.0 * angleField / 1000.0;
       leftWheelDist = deltaDist - (wheelDistDiff / 2.0);
       rightWheelDist = deltaDist + (wheelDistDiff / 2.0);
@@ -145,7 +144,13 @@ namespace create {
        * TODO: Consider using velocity command as substitute for pose estimation   *
        * to mitigate both of these problems.                                       *
        * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-      deltaYaw = angleField * (util::PI / 180.0); // D2R
+
+      // This is a fix involving analog gyro connected to pin 4 of Cargo Bay:
+      uint16_t angleRaw = GET_DATA(ID_CARGO_BAY_ANALOG_SIGNAL);
+      float angleF = -((float)angleRaw - 512.0) * dt;
+      angleF = angleF * 0.25; // gyro calibration factor
+      //std::cout<< "dt: " << dt << " distanceRaw: " << distanceRaw << " angleRaw: " << angleRaw << " angleF: " << angleF << std::endl;
+      deltaYaw = angleF * (util::PI / 180.0); // D2R
       wheelDistDiff = model.getAxleLength() * deltaYaw;
       leftWheelDist = deltaDist - (wheelDistDiff / 2.0);
       rightWheelDist = deltaDist + (wheelDistDiff / 2.0);

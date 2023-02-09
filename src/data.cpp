@@ -24,6 +24,7 @@ namespace create {
     ADD_PACKET(ID_BUTTONS, 1, "buttons", V_ALL);
     ADD_PACKET(ID_DISTANCE, 2, "distance", V_1 | V_2);
     ADD_PACKET(ID_ANGLE, 2, "angle", V_1 | V_2);
+    ADD_PACKET(ID_CARGO_BAY_ANALOG_SIGNAL, 2, "gyro", V_2);
     ADD_PACKET(ID_CHARGE_STATE, 1, "charging_state", V_ALL);
     ADD_PACKET(ID_VOLTAGE, 2, "voltage", V_ALL);
     ADD_PACKET(ID_CURRENT, 2, "current", V_ALL);
