@@ -1,3 +1,13 @@
+## Modified to work on Create 1 base with analog gyroscope or its emulation ##
+
+Create 1 firmware has a known bug described here: https://github.com/AutonomyLab/create_robot/issues/28
+
+Traditionally old Turtlebots relied on analog 1-axis gyroscope (ENC-03R, LPR5150AL) connected to pin 4 (analog input) of its Cargo Bay DB25 connector.
+
+A better option is using an MPU9250 "emulation" with Arduino Nano, providing the same analog output (see https://github.com/slgrobotics/Misc/tree/master/Arduino/Sketchbook/MPU9250GyroTurtlebot)
+
+This configuration works with Create 1 driver here: https://github.com/slgrobotics/create_robot/tree/foxy
+
 # libcreate #
 
 C++ library for interfacing with iRobot's [Create 1 and 2](http://www.irobot.com/About-iRobot/STEM/Create-2.aspx) as well as most models of Roomba. [create_autonomy](http://wiki.ros.org/create_autonomy) is a [ROS](http://www.ros.org/) wrapper for this library.
