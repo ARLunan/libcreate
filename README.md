@@ -8,6 +8,8 @@ A better option is using an MPU9250 "emulation" with Arduino Nano, providing the
 
 This configuration works with Create 1 driver here: https://github.com/slgrobotics/create_robot/tree/foxy
 
+See full setup instructions at https://github.com/slgrobotics/turtlebot_create
+
 # libcreate #
 
 C++ library for interfacing with iRobot's [Create 1 and 2](http://www.irobot.com/About-iRobot/STEM/Create-2.aspx) as well as most models of Roomba. [create_autonomy](http://wiki.ros.org/create_autonomy) is a [ROS](http://www.ros.org/) wrapper for this library.
