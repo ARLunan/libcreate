@@ -10,6 +10,8 @@ This configuration works with Create 1 driver here: https://github.com/slgroboti
 
 See full setup instructions at https://github.com/slgrobotics/turtlebot_create
 
+Odometry calculations: see ~/robot_ws/src/libcreate/src/create.cpp : 135
+
 # libcreate #
 
 C++ library for interfacing with iRobot's Create 1 and 2 as well as most models of Roomba. [create_robot](http://wiki.ros.org/create_robot) is a [ROS](http://www.ros.org/) wrapper for this library.

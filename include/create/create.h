@@ -81,6 +81,8 @@ namespace create {
       float gyroOffset;   // around 0, when static gyro produces 512 reading
       float gyroScale;    // around 1, adjust for gyro signal strength
 
+      float distanceScale;    // around 1, adjust for wheel odometry distance error
+
       uint32_t prevTicksLeft;
       uint32_t prevTicksRight;
       float totalLeftDist;
@@ -704,6 +706,10 @@ namespace create {
       inline float getGyroOffset() { return gyroOffset; };
 
       inline float getGyroScale() { return gyroScale; };
+
+      void setDistanceParameters(const double& scale);
+
+      inline float getDistanceScale() { return distanceScale; };
 
   };  // end Create class
 

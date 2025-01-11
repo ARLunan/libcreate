@@ -113,17 +113,17 @@ namespace create {
     float rightWheelDist = 0.0f;
     float wheelDistDiff = 0.0f;
 
-    // Protocol versions 1 and 2 use distance and angle fields for odometry
+    // Protocol versions 1 (Roomba 400) and 2 (Create 1) use distance and angle fields for odometry
     if (model.getVersion() <= V_2) {
       // This is a standards compliant way of doing unsigned to signed conversion
       uint16_t distanceRaw = GET_DATA(ID_DISTANCE);
       int16_t distance;
       std::memcpy(&distance, &distanceRaw, sizeof(distance));
-      deltaDist = distance / 1000.0; // mm -> m
+      deltaDist = distance * getDistanceScale() / 1000.0; // mm -> m
     }
 
     // Angle is processed differently in versions 1 and 2
-    if (model.getVersion() == V_1) {
+    if (model.getVersion() == V_1) { // Roomba 400
       int16_t angleField = 0;
       uint16_t angleRaw = GET_DATA(ID_ANGLE);
       std::memcpy(&angleField, &angleRaw, sizeof(angleField));
@@ -131,7 +131,7 @@ namespace create {
       leftWheelDist = deltaDist - (wheelDistDiff / 2.0);
       rightWheelDist = deltaDist + (wheelDistDiff / 2.0);
       deltaYaw = wheelDistDiff / model.getAxleLength();
-    } else if (model.getVersion() == V_2) {
+    } else if (model.getVersion() == V_2) { // Create 1
       /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
        * Certain older Creates have major problems with odometry                   *
        * http://answers.ros.org/question/31935/createroomba-odometry/              *
@@ -154,7 +154,7 @@ namespace create {
       wheelDistDiff = model.getAxleLength() * deltaYaw;
       leftWheelDist = deltaDist - (wheelDistDiff / 2.0);
       rightWheelDist = deltaDist + (wheelDistDiff / 2.0);
-    } else if (model.getVersion() >= V_3) {
+    } else if (model.getVersion() >= V_3) { // Create 2
       // Get cumulative ticks (wraps around at 65535)
       uint16_t totalTicksLeft = GET_DATA(ID_LEFT_ENC);
       uint16_t totalTicksRight = GET_DATA(ID_RIGHT_ENC);
@@ -1164,5 +1164,8 @@ namespace create {
     gyroScale = (float)scale;
   }
 
+  void Create::setDistanceParameters(const double& scale) {
+    distanceScale = (float)scale;
+  }
 
 } // end namespace
