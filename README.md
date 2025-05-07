@@ -1,3 +1,4 @@
+## slgrobotics ##
 ## Modified to work on Create 1 base with analog gyroscope or its emulation ##
 
 Create 1 firmware has a known bug described here: https://github.com/AutonomyLab/create_robot/issues/28
@@ -6,7 +7,7 @@ Traditionally old Turtlebots relied on analog 1-axis gyroscope (ENC-03R, LPR5150
 
 A better option is using an MPU9250 "emulation" with Arduino Nano, providing the same analog output (see [MPU9250GyroTurtlebot](https://github.com/slgrobotics/Misc/tree/master/Arduino/Sketchbook/MPU9250GyroTurtlebot))
 
-This configuration works under _ROS2 Jazzy_ with _Create 1 driver_ here: https://github.com/slgrobotics/create_robot
+This configuration works under _ROS 2 Jazzy_ with _Create 1 driver_ here:  (https://github.com/slgrobotics/create_robot) that depends on this libcreate repository.  
 
 Refer to detailed setup instructions here: https://github.com/slgrobotics/robots_bringup/tree/main/Docs/Create1
 
